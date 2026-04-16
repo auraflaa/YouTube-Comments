@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Sentiment Analysis - Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .step {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            border-radius: 8px;
+        }
+
+        .step h2 {
+            color: #667eea;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .step code {
+            display: block;
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+        }
+
+        .step p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .success {
+            background: #d4edda;
+            border-left-color: #28a745;
+        }
+
+        .success h2 {
+            color: #28a745;
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+
+        .links a {
+            display: inline-block;
+            margin: 0 15px;
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .links a:hover {
+            background: #5568d3;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin: 10px 0;
+        }
+
+        .feature-list li {
+            padding: 8px 0;
+            color: #666;
+        }
+
+        .feature-list li:before {
+            content: "✓ ";
+            color: #28a745;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 YouTube Comment Sentiment Analysis - Setup Guide</h1>
+
+        <div class="step">
+            <h2>Step 1: Backend Setup</h2>
+            <p>Navigate to the backend directory and build the project:</p>
+            <code>cd backend
+mvn clean install</code>
+            <p>This will download all dependencies and compile the Java code.</p>
+        </div>
+
+        <div class="step">
+            <h2>Step 2: Run Backend Server</h2>
+            <p>Start the Spring Boot application:</p>
+            <code>mvn spring-boot:run</code>
+            <p>Or if using Maven wrapper:</p>
+            <code>./mvnw spring-boot:run</code>
+            <p>Backend will start on <strong>http://localhost:8080</strong></p>
+        </div>
+
+        <div class="step">
+            <h2>Step 3: Run Frontend</h2>
+            <p>Open a new terminal and navigate to the frontend directory:</p>
+            <code>cd frontend</code>
+            <p>Then start a local server. Choose one:</p>
+            <p><strong>Using Python:</strong></p>
+            <code>python -m http.server 3000</code>
+            <p><strong>Using Node.js:</strong></p>
+            <code>npx http-server -p 3000</code>
+            <p><strong>Or simply:</strong> Open <code>index.html</code> directly in your browser</p>
+        </div>
+
+        <div class="step success">
+            <h2>✓ Ready to Use!</h2>
+            <p><strong>Open your browser and go to:</strong></p>
+            <code>http://localhost:3000</code>
+            <p><strong>Or if opening directly:</strong></p>
+            <code>file:///path/to/youtube-sentiment-analysis/frontend/index.html</code>
+        </div>
+
+        <div class="step">
+            <h2>Testing the API</h2>
+            <p>You can test the backend API using curl:</p>
+            <code>curl -X POST http://localhost:8080/api/sentiment/analyze \
+  -H "Content-Type: application/json" \
+  -d '{"videoUrl":"https://www.youtube.com/watch?v=dQw4w9WgXcQ","apiKey":""}'</code>
+        </div>
+
+        <div class="step">
+            <h2>Features Included</h2>
+            <ul class="feature-list">
+                <li>YouTube URL parsing and validation</li>
+                <li>Real-time sentiment analysis</li>
+                <li>Interactive pie chart visualization</li>
+                <li>Responsive mobile-friendly design</li>
+                <li>CORS enabled for secure cross-origin requests</li>
+                <li>Error handling and user feedback</li>
+                <li>Smooth animations and transitions</li>
+                <li>Color-coded sentiment indicators</li>
+            </ul>
+        </div>
+
+        <div class="links">
+            <a href="index.html">Go to Application</a>
+            <a href="https://github.com">GitHub</a>
+            <a href="README.md">Full Documentation</a>
+        </div>
+    </div>
+</body>
+</html>

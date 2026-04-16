@@ -1,0 +1,92 @@
+{
+  "info": {
+    "name": "YouTube Sentiment Analysis API",
+    "description": "Collection for testing YouTube Comment Sentiment Analysis API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/sentiment/health",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "sentiment", "health"]
+        }
+      }
+    },
+    {
+      "name": "Analyze Comments",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"videoUrl\": \"https://www.youtube.com/watch?v=dQw4w9WgXcQ\",\n    \"apiKey\": \"\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/sentiment/analyze",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "sentiment", "analyze"]
+        }
+      }
+    },
+    {
+      "name": "Analyze - Short URL",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"videoUrl\": \"https://youtu.be/dQw4w9WgXcQ\",\n    \"apiKey\": \"\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/sentiment/analyze",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "sentiment", "analyze"]
+        }
+      }
+    },
+    {
+      "name": "Analyze - With API Key",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"videoUrl\": \"https://www.youtube.com/watch?v=dQw4w9WgXcQ\",\n    \"apiKey\": \"YOUR_API_KEY_HERE\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/sentiment/analyze",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "sentiment", "analyze"]
+        }
+      }
+    }
+  ]
+}

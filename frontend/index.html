@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Comment Discovery</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="title">
+                    <span class="title-icon">🔍</span>
+                    YouTube Comment Discovery
+                </h1>
+                <p class="subtitle">Instantly extract and explore the top comments from any video. Pure and simple.</p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Input Section -->
+            <section class="input-section">
+                <div class="input-card">
+                    <h2>Step 1: Enter Video Link</h2>
+                    <form id="analysisForm" onsubmit="handleAnalyze(event)">
+                        <div class="input-row">
+                            <div class="form-group url-group">
+                                <label for="videoUrl">YouTube video link</label>
+                                <input 
+                                    type="text" 
+                                    id="videoUrl" 
+                                    name="videoUrl" 
+                                    placeholder="e.g., https://www.youtube.com/watch?v=..."
+                                    required
+                                >
+                            </div>
+                            
+                            <div class="form-group limit-group">
+                                <label for="maxComments">Fetch limit</label>
+                                <select id="maxComments" name="maxComments">
+                                    <option value="20">20 comments</option>
+                                    <option value="50">50 comments</option>
+                                    <option value="100" selected>100 comments</option>
+                                    <option value="200">200 comments</option>
+                                    <option value="500">500 comments</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-analyze" id="analyzeBtn">
+                            <span class="btn-text">Discover Insights</span>
+                            <span class="btn-loader" id="loader" style="display: none;">
+                                <span class="spinner"></span>
+                            </span>
+                        </button>
+                        <div id="loadingStatus" class="loading-status" style="display: none;"></div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section class="results-section" id="resultsSection" style="display: none;">
+                <div class="results-container">
+                    <!-- AI Analytics Section -->
+                    <div id="analytics-section" class="analytics-container fade-in" style="display: none;">
+                        <div class="analytics-header">
+                            <h2 class="comments-title">
+                                <span class="title-icon">✨</span>
+                                AI Insights
+                            </h2>
+                            <div class="header-actions">
+                                <button class="btn-icon" onclick="copySummary()" title="Copy Summary">📋</button>
+                                <button class="btn-icon" onclick="exportAnalysis()" title="Download JSON">📥</button>
+                            </div>
+                        </div>
+                        
+                        <div class="stats-grid">
+                            <!-- Executive Summary -->
+                            <div class="stat-card summary-card">
+                                <div class="stat-header">
+                                    <span class="stat-icon">🤖</span>
+                                    <h3 class="stat-title">Executive Summary</h3>
+                                </div>
+                                <div class="stat-value summary-text" id="aiSummary">Analyzing...</div>
+                            </div>
+                            
+                            <!-- Toxicity Meter -->
+                            <div class="stat-card toxicity-card">
+                                <div class="stat-header">
+                                    <span class="stat-icon">🛡️</span>
+                                    <h3 class="stat-title">Toxicity Score</h3>
+                                </div>
+                                <div class="toxicity-meter">
+                                    <div class="meter-bg">
+                                        <div id="toxicityFill" class="meter-fill" style="width: 0%"></div>
+                                    </div>
+                                    <div class="meter-value"><span id="toxicityScore">0</span>/100</div>
+                                </div>
+                            </div>
+
+                            <!-- Sentiment Split -->
+                            <div class="stat-card sentiment-card">
+                                <div class="stat-header">
+                                    <span class="stat-icon">📊</span>
+                                    <h3 class="stat-title">Sentiment Distribution</h3>
+                                </div>
+                                <div class="sentiment-bars">
+                                    <div class="bar-row"><span class="bar-label">Pos</span><div class="bar-bg"><div id="posFill" class="bar-fill pos-color"></div></div><span id="posVal" class="bar-val">0%</span></div>
+                                    <div class="bar-row"><span class="bar-label">Neu</span><div class="bar-bg"><div id="neuFill" class="bar-fill neu-color"></div></div><span id="neuVal" class="bar-val">0%</span></div>
+                                    <div class="bar-row"><span class="bar-label">Neg</span><div class="bar-bg"><div id="negFill" class="bar-fill neg-color"></div></div><span id="negVal" class="bar-val">0%</span></div>
+                                </div>
+                            </div>
+
+                            <!-- Key Topics -->
+                            <div class="stat-card topics-card">
+                                <div class="stat-header">
+                                    <span class="stat-icon">🏷️</span>
+                                    <h3 class="stat-title">Key Topics</h3>
+                                </div>
+                                <div id="keyTopicsList" class="topics-list">
+                                    <!-- Dynamic badges -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Extracted Comments Section -->
+                    <div class="extracted-comments-container">
+                        <div class="comments-section-header">
+                            <h2 class="comments-title">
+                                <span class="title-icon">💬</span>
+                                Extracted Comments
+                            </h2>
+                            <div class="search-box">
+                                <input type="text" id="commentSearch" placeholder="Search comments..." onkeyup="handleSearch()">
+                                <span class="search-icon">🔍</span>
+                            </div>
+                        </div>
+                        <div id="commentsGrid" class="comments-grid"></div>
+                    </div>
+                </div>
+
+                <button class="btn-reset" onclick="resetForm()">Extract from Another Video</button>
+            </section>
+
+            <!-- Error Section -->
+            <section class="error-section" id="errorSection" style="display: none;">
+                <div class="error-card">
+                    <h3>⚠️ Error</h3>
+                    <p id="errorMessage"></p>
+                    <button class="btn-reset" onclick="resetError()">Try Again</button>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer Section -->
+        <footer class="footer">
+            <p>&copy; 2024 YouTube Comment Discovery | Built with Spring Boot & JavaScript</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+# --- YouTube Sentiment Analysis .gitignore ---
+
+# Environment & Secrets
+.env
+.env.local
+infra/.env
+
+# Build Artifacts (Java/Maven)
+target/
+*.jar
+*.war
+*.zip
+*.tar.gz
+.m2/
+
+# Logging
+*.log
+logs/
+build_error.log
+backend/logs/
+
+# IDE & Settings
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+.factorypath
+*.sublime-project
+*.sublime-workspace
+
+# Operating System
+.DS_Store
+Thumbs.db
+
+# Docker
+.docker/
+docker-compose.override.yml
+
+# Temporary/Scratch
+tmp/
+temp/
+scratch/
+out/
+
+# Dependency Lock Files (Optional, but often ignored for libraries)
+# pom.xml.tag
+# pom.xml.releaseBackup
+# pom.xml.versionsBackup
+# pom.xml.next
+# release.properties
