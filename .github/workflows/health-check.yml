@@ -1,0 +1,63 @@
+name: Server Health Check
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+
+    - name: Build with Maven
+      run: |
+        cd backend
+        mvn clean package -DskipTests
+
+    - name: Start Spring Boot Server
+      run: |
+        cd backend
+        java -jar target/*.jar &
+        echo "Server starting in background..."
+        sleep 10 # Initial wait for the JVM to start
+
+    - name: Wait for Health Check
+      run: |
+        timeout=120
+        start_time=$(date +%s)
+        while true; do
+          current_time=$(date +%s)
+          elapsed=$((current_time - start_time))
+          
+          if [ $elapsed -gt $timeout ]; then
+            echo "Health check timed out after 120 seconds"
+            exit 1
+          fi
+          
+          # Health check endpoint: /api/sentiment/health
+          # Expected response: "YouTube Comment Extraction Service is running!" (but we check for for 200 OK)
+          status_code=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/api/sentiment/health)
+          
+          if [ "$status_code" -eq 200 ]; then
+            echo "Server health check passed with status 200!"
+            break
+          fi
+          
+          echo "Waiting for server... (Status: $status_code, Elapsed: ${elapsed}s)"
+          sleep 5
+        done
+
+    - name: Final Verification
+      run: |
+        curl -s http://localhost:8080/api/sentiment/health
